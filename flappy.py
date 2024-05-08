@@ -1,34 +1,39 @@
 from KivyGame import *
 from kivy.app import App
 
-class Ball(GameObject):
+class Player(GameObject):
+    def update(self, dt):
+        self.velY -= 10
+
     def on_key_down(self, key):
-        if key == "w":
-            self.velX = 0
-            self.velY = 50
-        if key == 's':
-            self.velX = 0
-            self.velY = -50
-        if key == 'd':
-            self.velX = 50
-            self.velY = 0
-        if key == 'a':
-            self.velX = -50
-            self.velY = 0
+        if key == "spacebar":
+            self.velY = 300
+
+class Obstacle(GameObject):
+    def update(self, dt):
+        self.velX = -80
+
+        if self.pos_x() < -100:
+            self.set_x(800)
 
 class MyGame(App):
     def build(self):
         screen = GameScreen()
 
-        ball = Ball()
-        ball.create((400,500), (50,50), "ball.png")
-
-        screen.add_widget(ball)
-
-        player = Ball()
-        player.create((50,300), (75,75), "flyman.png")
+        player = Player()
+        player.create((50, 300), (50,50), "flyman.png")
 
         screen.add_widget(player)
+
+        for i in range(4):
+            obstacleDown = Obstacle()
+            obstacleDown.create((200 + i * 200, 0), (100,200), "cactus.png")
+            obstacleUp = Obstacle()
+            obstacleUp.create((200 + i * 200, 400), (100,200), "cactus_up.png")
+
+            screen.add_widget(obstacleDown)
+            screen.add_widget(obstacleUp)
+
         return screen
 
 MyGame().run()
