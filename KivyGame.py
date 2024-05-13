@@ -74,7 +74,7 @@ class GameScreen(Widget):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        Window.size = (800, 600)
+        Window.size = (self.width, self.height)
 
         Clock.schedule_interval(self.update, 1.0 / 60.0)
         self._keyboard = Window.request_keyboard(self._keyboard_closed, self)
